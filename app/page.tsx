@@ -65,26 +65,26 @@ const Weather: React.FC<WeatherProps> = () => {
             }`
           );
         }
-        if (weatherData) {
+         if (weatherData) {
           const previousWeather = weatherData.list[0];
           const newWeather = response.data.list[0];
 
-          // Trigger a notification
-          if (Math.abs(previousWeather.main.temp - newWeather.main.temp) > 5) {
+           // Trigger a notification
+           if (Math.abs(previousWeather.main.temp - newWeather.main.temp) > 5) {
             const notificationText = "Weather has changed significantly!";
             new Notification(notificationText);
           }
         }
 
-        setLoading(false);
-        setWeatherData(response.data);
-        setLoading(false);
-      } catch (error: any) {
-        setError(error.message || "Unknown error");
-        setLoading(false);
-        console.error("Error:", error.message || "Unknown error");
+         setLoading(false);
+         setWeatherData(response.data);
+         setLoading(false);
+       } catch (error: any) {
+         setError(error.message || "Unknown error");
+         setLoading(false);
+         console.error("Error:", error.message || "Unknown error");
       }
-    };
+     };
     // to get user location
     const getLocation = () => {
       navigator.geolocation.getCurrentPosition(

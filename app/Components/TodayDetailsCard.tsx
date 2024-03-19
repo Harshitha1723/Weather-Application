@@ -8,14 +8,14 @@ interface TodayDetailsCardProps {
   weatherStatus: string;
   city: string;
   weatherIcon: string; 
-  selectedLanguage:keyof typeof supportedLanguages
+  selectedLanguage:keyof typeof supportedLanguages;
 }
 const TodayDetailsCard: React.FC<TodayDetailsCardProps> = ({
   temperature,
   weatherStatus,
   city,
   weatherIcon,
-  selectedLanguage
+  selectedLanguage,
 }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchedCityData, setSearchedCityData] = useState<any>(null);
@@ -27,7 +27,7 @@ const TodayDetailsCard: React.FC<TodayDetailsCardProps> = ({
 
     try {
       const response = await axios.get(
-        `https://api.openweathermap.org/data/2.5/weather?q=${searchQuery}&appid=${apiKey}`
+        `https://api.openweathermap.org/data/2.5/weather?q=${searchQuery}&appid=${apiKey}&units=metric`
       );
 
       setSearchedCityData(response.data);
@@ -38,7 +38,7 @@ const TodayDetailsCard: React.FC<TodayDetailsCardProps> = ({
 
     }
   };
-
+  console.log("searchedCityData==", searchedCityData);
   const displayData = searchedCityData || {
     temperature,
     weatherStatus,
@@ -103,7 +103,7 @@ const TodayDetailsCard: React.FC<TodayDetailsCardProps> = ({
           </div>
           <div>
             <p style={{ marginTop: 30 }}>
-              <span style={{ fontWeight: "bold" }}> {supportedLanguages[selectedLanguage]?.weatherStatus}: </span>
+              <span style={{ fontWeight: "bold" }}> {supportedLanguages[selectedLanguage]?.weatherStatus}:{" "} </span>
               {displayData.weatherStatus}
             </p>
             <p style={{ marginTop: 30 }}>
@@ -132,12 +132,12 @@ const TodayDetailsCard: React.FC<TodayDetailsCardProps> = ({
             style={{ width: "50px", height: "50px" }}
           />
           <p style={{ marginTop: 40 }}>
-            <span style={{ fontWeight: "bold" }}>{supportedLanguages[selectedLanguage]?.city} </span>{" "}
+            <span style={{ fontWeight: "bold" }}>{supportedLanguages[selectedLanguage]?.city}{" "} </span>{" "}
             {searchedCityData.name}{" "}
           </p>
 
           <p style={{ marginTop: 40 }}>
-            <span style={{ fontWeight: "bold" }}> {supportedLanguages[selectedLanguage]?.temperature}: </span>{" "}
+            <span style={{ fontWeight: "bold" }}> {supportedLanguages[selectedLanguage]?.temperature}:{" "} </span>{" "}
             {searchedCityData.main.temp} °C
           </p>
           <p style={{ marginTop: 40 }}>
