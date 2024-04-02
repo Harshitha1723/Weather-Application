@@ -7,8 +7,9 @@ interface TodayDetailsCardProps {
   temperature: number;
   weatherStatus: string;
   city: string;
-  weatherIcon: string; 
-  selectedLanguage:keyof typeof supportedLanguages;
+  weatherIcon: string;
+  selectedLanguage: keyof typeof supportedLanguages;
+  setCenter: any;
 }
 const TodayDetailsCard: React.FC<TodayDetailsCardProps> = ({
   temperature,
@@ -16,6 +17,7 @@ const TodayDetailsCard: React.FC<TodayDetailsCardProps> = ({
   city,
   weatherIcon,
   selectedLanguage,
+  setCenter,
 }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchedCityData, setSearchedCityData] = useState<any>(null);
@@ -27,18 +29,21 @@ const TodayDetailsCard: React.FC<TodayDetailsCardProps> = ({
 
     try {
       const response = await axios.get(
-        `https://api.openweathermap.org/data/2.5/weather?q=${searchQuery}&appid=${apiKey}&units=metric`
+        `https://api.openweathermap.org/data/2.5/weather?q=${searchQuery}&appid=${apiKey}`
       );
-
+      setCenter;
+      setCenter({
+        lat: response.data.coord.lat,
+        lng: response.data.coord.lon,
+      });
       setSearchedCityData(response.data);
 
       setSearchQuery("");
     } catch (error) {
       console.error("Error fetching data:", error);
-
     }
   };
-  console.log("searchedCityData==", searchedCityData);
+
   const displayData = searchedCityData || {
     temperature,
     weatherStatus,
@@ -70,13 +75,13 @@ const TodayDetailsCard: React.FC<TodayDetailsCardProps> = ({
         <form onSubmit={handleSearch} style={{ display: "flex" }}>
           <input
             type="text"
-            placeholder= {supportedLanguages[selectedLanguage]?.searchForACity}
+            placeholder={supportedLanguages[selectedLanguage]?.searchForACity}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             style={{ flex: 1 }}
           />
           <button type="submit" style={{ marginLeft: "10px" }}>
-          {supportedLanguages[selectedLanguage]?.search}
+            {supportedLanguages[selectedLanguage]?.search}
           </button>
         </form>
       </div>
@@ -103,11 +108,17 @@ const TodayDetailsCard: React.FC<TodayDetailsCardProps> = ({
           </div>
           <div>
             <p style={{ marginTop: 30 }}>
-              <span style={{ fontWeight: "bold" }}> {supportedLanguages[selectedLanguage]?.weatherStatus}:{" "} </span>
+              <span style={{ fontWeight: "bold" }}>
+                {" "}
+                {supportedLanguages[selectedLanguage]?.weatherStatus}:{" "}
+              </span>
               {displayData.weatherStatus}
             </p>
             <p style={{ marginTop: 30 }}>
-              <span style={{ fontWeight: "bold" }}> {supportedLanguages[selectedLanguage]?.city}:</span>
+              <span style={{ fontWeight: "bold" }}>
+                {" "}
+                {supportedLanguages[selectedLanguage]?.city}:
+              </span>
               {displayData.city}
             </p>
           </div>
@@ -124,7 +135,7 @@ const TodayDetailsCard: React.FC<TodayDetailsCardProps> = ({
               marginBottom: 20,
             }}
           >
-           {supportedLanguages[selectedLanguage]?.todaysDetails} :
+            {supportedLanguages[selectedLanguage]?.todaysDetails} :
           </h3>
           <img
             src={`https://openweathermap.org/img/w/${searchedCityData.weather[0].icon}.png`}
@@ -132,28 +143,41 @@ const TodayDetailsCard: React.FC<TodayDetailsCardProps> = ({
             style={{ width: "50px", height: "50px" }}
           />
           <p style={{ marginTop: 40 }}>
-            <span style={{ fontWeight: "bold" }}>{supportedLanguages[selectedLanguage]?.city}{" "} </span>{" "}
+            <span style={{ fontWeight: "bold" }}>
+              {supportedLanguages[selectedLanguage]?.city}{" "}
+            </span>{" "}
             {searchedCityData.name}{" "}
           </p>
 
           <p style={{ marginTop: 40 }}>
-            <span style={{ fontWeight: "bold" }}> {supportedLanguages[selectedLanguage]?.temperature}:{" "} </span>{" "}
+            <span style={{ fontWeight: "bold" }}>
+              {" "}
+              {supportedLanguages[selectedLanguage]?.temperature}:{" "}
+            </span>{" "}
             {searchedCityData.main.temp} °C
           </p>
           <p style={{ marginTop: 40 }}>
-            <span style={{ fontWeight: "bold" }}>{supportedLanguages[selectedLanguage]?.weatherStatus}:</span>{" "}
+            <span style={{ fontWeight: "bold" }}>
+              {supportedLanguages[selectedLanguage]?.weatherStatus}:
+            </span>{" "}
             {searchedCityData.weather[0].main}
           </p>
           <p style={{ marginTop: 40 }}>
-            <span style={{ fontWeight: "bold" }}>{supportedLanguages[selectedLanguage]?.humidity}:</span>{" "}
+            <span style={{ fontWeight: "bold" }}>
+              {supportedLanguages[selectedLanguage]?.humidity}:
+            </span>{" "}
             {searchedCityData.main.humidity}%
           </p>
           <p style={{ marginTop: 40 }}>
-            <span style={{ fontWeight: "bold" }}>{supportedLanguages[selectedLanguage]?.visibility}:</span>{" "}
+            <span style={{ fontWeight: "bold" }}>
+              {supportedLanguages[selectedLanguage]?.visibility}:
+            </span>{" "}
             {searchedCityData.visibility / 1000} km
           </p>
           <p style={{ marginTop: 40 }}>
-            <span style={{ fontWeight: "bold" }}>{supportedLanguages[selectedLanguage]?.rain}:</span>{" "}
+            <span style={{ fontWeight: "bold" }}>
+              {supportedLanguages[selectedLanguage]?.rain}:
+            </span>{" "}
             {searchedCityData.rain
               ? `${searchedCityData.rain["1h"]} mm`
               : "0 mm"}
