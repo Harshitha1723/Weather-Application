@@ -61,7 +61,7 @@ const Weather: React.FC<WeatherProps> = () => {
     const getWeatherData = async (latitude: number, longitude: number) => {
       setCenter({ lat: latitude, lng: longitude });
       const apiKey = "ff1afc50d59929198791251ef8051e51"; // api key
-      const apiUrl = `http://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&exclude=minutely,alerts&appid=${apiKey}&units=metric&lang=${selectedLanguage}`;
+      const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&exclude=minutely,alerts&appid=${apiKey}&units=metric&lang=${selectedLanguage}`;
 
       // handle response
       try {

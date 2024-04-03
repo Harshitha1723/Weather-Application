@@ -29,7 +29,7 @@ const TodayDetailsCard: React.FC<TodayDetailsCardProps> = ({
 
     try {
       const response = await axios.get(
-        `https://api.openweathermap.org/data/2.5/weather?q=${searchQuery}&appid=${apiKey}`
+        `https://api.openweathermap.org/data/2.5/weather?q=${searchQuery}&appid=${apiKey}&units=metric`
       );
       setCenter;
       setCenter({
