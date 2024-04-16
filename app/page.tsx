@@ -268,6 +268,7 @@ const Weather: React.FC<WeatherProps> = () => {
         {/* right section */}
         {/* handle today and weekly tab */}
         <div>
+        <h1>Showing for current location</h1>     {/* right section */}
           <div style={{ marginBottom: "10px" }}>
             <button
               style={{
